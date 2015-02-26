@@ -126,6 +126,7 @@ namespace ElZilean
                 spells[Spells.Q].CastIfHitchanceEquals(target, HitChance.VeryHigh);
             }
 
+            //to-do; menu option, add stun on/off
             if (target.HasBuff("ZileanQEnemyBomb"))
             {
                 spells[Spells.W].Cast();
