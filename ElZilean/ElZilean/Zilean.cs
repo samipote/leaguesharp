@@ -25,12 +25,11 @@ namespace ElZilean
 
         public static Dictionary<Spells, Spell> spells = new Dictionary<Spells, Spell>()
         {
-            { Spells.Q, new Spell(SpellSlot.Q, 700)},
+            { Spells.Q, new Spell(SpellSlot.Q, 900)},
             { Spells.W, new Spell(SpellSlot.W, 0)},
             { Spells.E, new Spell(SpellSlot.E, 700)},
             { Spells.R, new Spell(SpellSlot.R, 900)}
         };
-
 
         #region hitchance
 
@@ -57,7 +56,6 @@ namespace ElZilean
         }
 
         #endregion
-
 
         #region Gameloaded 
 
@@ -105,9 +103,49 @@ namespace ElZilean
                     Combo();
                     break;
             }
+
+            UltAlly();
+            SelfUlt();
         }
 
         #endregion
+
+        private static void SelfUlt()
+        {
+            var useSelftUlt = ZileanMenu._menu.Item("ElZilean.R").GetValue<bool>();
+            var useSelftHP = ZileanMenu._menu.Item("ElZilean.HP").GetValue<Slider>().Value;
+
+            if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
+            if (useSelftUlt && (Player.Health / Player.MaxHealth) * 100 <= useSelftHP && spells[Spells.R].IsReady() && Utility.CountEnemiesInRange(Player, 650) > 0)
+            {
+                spells[Spells.R].Cast(Player);
+            }
+        }
+
+        private static void UltAlly()
+        {
+            
+            var useult = ZileanMenu._menu.Item("ElZilean.useult").GetValue<bool>();
+            var allyMinHP = ZileanMenu._menu.Item("ElZilean.Ally.HP").GetValue<Slider>().Value;
+
+            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsAlly && !hero.IsMe))
+            {
+                var getAllys = ZileanMenu._menu.Item("ElZilean.Cast.Ult.Ally" + hero.BaseSkinName);
+
+                if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
+                if (!useult || !((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) || !spells[Spells.R].IsReady() ||
+                    Utility.CountEnemiesInRange(Player, 1000) <= 0 ||
+                    !(hero.Distance(Player.ServerPosition) <= spells[Spells.R].Range))
+                {
+                    continue;
+                }
+
+                if (getAllys != null && getAllys.GetValue<bool>())
+                {
+                    spells[Spells.R].Cast(hero);
+                }
+            }
+        }
 
         private static void Combo()
         {
@@ -124,7 +162,6 @@ namespace ElZilean
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
-                //spells[Spells.Q].Cast(target);
                 spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
             }
 

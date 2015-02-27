@@ -34,6 +34,18 @@ namespace ElZilean
             comboMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
             comboMenu.AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 
+            //ElZilean.Ult
+            var castUltMenu = _menu.AddSubMenu(new Menu("Ult settings", "ElZilean.Ally.Ult"));
+            castUltMenu.AddItem(new MenuItem("ElZilean.useult", "Use ult on ally").SetValue(true));
+            castUltMenu.AddItem(new MenuItem("ElZilean.Ally.HP", "Ally Health %")).SetValue(new Slider(25, 1, 100));
+            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsAlly && !hero.IsMe))
+                castUltMenu.AddItem(new MenuItem("ElZilean.Cast.Ult.Ally" + hero.BaseSkinName, hero.BaseSkinName).SetValue(true));
+
+            castUltMenu.AddItem(new MenuItem("422442fsaasssfs4242f", ""));
+            castUltMenu.AddItem(new MenuItem("ElZilean.R", "Cast R")).SetValue(true);
+            castUltMenu.AddItem(new MenuItem("ElZilean.HP", "Self Health %")).SetValue(new Slider(25, 1, 100));
+
+
             //ElZilean.Misc
             var miscMenu = _menu.AddSubMenu(new Menu("Misc", "Misc"));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.off", "[Drawing] Drawings off").SetValue(false));
