@@ -86,7 +86,7 @@ namespace ElZilean
 
 
             Notifications.AddNotification("ElZilean by jQuery v1.0.0.0", 10000);
-            spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, true, SkillshotType.SkillshotCircle);
+            spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
 
             ZileanMenu.Initialize();
             Game.OnGameUpdate += OnGameUpdate;
@@ -119,11 +119,18 @@ namespace ElZilean
             //Console.WriteLine("Buffs: {0}", string.Join(" | ", target.Buffs.Where(b => b.Caster.NetworkId == Player.NetworkId).Select(b => b.DisplayName)));
 
             var qCombo = ZileanMenu._menu.Item("ElZilean.Combo.Q").GetValue<bool>();
+            var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
+
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
                 //spells[Spells.Q].Cast(target);
-                spells[Spells.Q].CastIfHitchanceEquals(target, HitChance.VeryHigh);
+                spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
+            }
+
+            if (eCombo && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
+            {
+                spells[Spells.E].Cast(target);
             }
 
             //to-do; menu option, add stun on/off
