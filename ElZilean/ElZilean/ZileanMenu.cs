@@ -32,14 +32,22 @@ namespace ElZilean
             comboMenu.AddItem(new MenuItem("ElZilean.Combo.Q", "Use Q").SetValue(true));
             comboMenu.AddItem(new MenuItem("ElZilean.Combo.E", "Use E").SetValue(true));
             comboMenu.AddItem(new MenuItem("ElZilean.Combo.W", "Use W to reset Q when target is marked").SetValue(true));
+            comboMenu.AddItem(new MenuItem("ElZilean.Combo.Ignite", "Use Ignite").SetValue(true));
             comboMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
             comboMenu.AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 
+            //ElZilean.Menu
+            var harassMenu = _menu.AddSubMenu(new Menu("Harass", "Harass"));
+            harassMenu.AddItem(new MenuItem("ElZilean.Harass.Q", "Use Q").SetValue(true));
+            harassMenu.AddItem(new MenuItem("ElZilean.Harass.E", "Use E").SetValue(true));
+            harassMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
 
-            //ElZilean.SuperSecretSettings
-            var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
-            SSSMenu.AddItem(new MenuItem("FleeActive", "Flee").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
-            SSSMenu.AddItem(new MenuItem("AutoRewind", "[Toggle] Auto Rewind", true).SetValue(new KeyBind("L".ToCharArray()[0], KeyBindType.Toggle)));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.AutoHarass", "[Toggle] Auto harass", true).SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Toggle)));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("spacespacespace", ""));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.UseQAutoHarass", "Use Q").SetValue(true));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.UseEAutoHarass", "Use E").SetValue(false));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("spacespacespassce", ""));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.harass.mana", "Min % mana for autoharass")).SetValue(new Slider(55));
 
             //ElZilean.Ult
             var castUltMenu = _menu.AddSubMenu(new Menu("Ult settings", "ElZilean.Ally.Ult"));
@@ -61,6 +69,10 @@ namespace ElZilean
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.E", "Draw E").SetValue(true));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.R", "[Drawing] Draw R").SetValue(true));
 
+            //ElZilean.SuperSecretSettings
+            var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
+            SSSMenu.AddItem(new MenuItem("FleeActive", "Flee").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
+            SSSMenu.AddItem(new MenuItem("AutoRewind", "[Toggle] Auto Rewind", true).SetValue(new KeyBind("L".ToCharArray()[0], KeyBindType.Toggle)));
 
 
             //Here comes the moneyyy, money, money, moneyyyy
