@@ -60,7 +60,6 @@ namespace ElZilean
             castUltMenu.AddItem(new MenuItem("ElZilean.R", "Cast R")).SetValue(true);
             castUltMenu.AddItem(new MenuItem("ElZilean.HP", "Self Health %")).SetValue(new Slider(25, 1, 100));
 
-
             //ElZilean.Misc
             var miscMenu = _menu.AddSubMenu(new Menu("Misc", "Misc"));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.off", "[Drawing] Drawings off").SetValue(false));

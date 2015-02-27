@@ -135,7 +135,6 @@ namespace ElZilean
                 var e = ZileanMenu._menu.Item("ElZilean.UseEAutoHarass").GetValue<bool>();
                 var mana = ZileanMenu._menu.Item("ElZilean.harass.mana").GetValue<Slider>().Value;
 
-
                 if (Player.ManaPercentage() >= mana)
                 {
                     if (q && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
@@ -158,7 +157,12 @@ namespace ElZilean
             if (spells[Spells.E].IsReady())
             {
                 spells[Spells.E].Cast(Player);
-            }   
+            }
+
+            if (spells[Spells.W].IsReady())
+            {
+                spells[Spells.W].Cast();
+            }
         }
 
         private static void SelfUlt()
