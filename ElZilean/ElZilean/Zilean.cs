@@ -93,6 +93,8 @@ namespace ElZilean
 
         #endregion
 
+        //harass, waveclear, autoharass, ignite
+
         #region OnGameUpdate
 
         private static void OnGameUpdate(EventArgs args)
@@ -153,8 +155,8 @@ namespace ElZilean
                 var getAllys = ZileanMenu._menu.Item("ElZilean.Cast.Ult.Ally" + hero.BaseSkinName);
 
                 if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
-                if (useult || ((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) || spells[Spells.R].IsReady() ||
-                    Utility.CountEnemiesInRange(Player, 1000) <= 0 ||
+                if (useult && ((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) && spells[Spells.R].IsReady() &&
+                    Utility.CountEnemiesInRange(Player, 1000) > 0 &&
                     (hero.Distance(Player.ServerPosition) <= spells[Spells.R].Range))
                 {
                     if (getAllys != null && getAllys.GetValue<bool>())
