@@ -106,9 +106,26 @@ namespace ElZilean
 
             UltAlly();
             SelfUlt();
+
+            if (ZileanMenu._menu.Item("FleeActive").GetValue<KeyBind>().Active)
+            {
+                Flee();
+            }
+
+            if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
+            if (ZileanMenu._menu.Item("AutoRewind", true).GetValue<KeyBind>().Active)
+            {
+                if (Environment.TickCount - spells[Spells.W].LastCastAttemptT >= 6000 && spells[Spells.W].IsReady())
+                    spells[Spells.W].Cast();
+            }
         }
 
         #endregion
+
+        private static void Flee()
+        {
+            spells[Spells.E].Cast(Player);
+        }
 
         private static void SelfUlt()
         {
@@ -133,16 +150,14 @@ namespace ElZilean
                 var getAllys = ZileanMenu._menu.Item("ElZilean.Cast.Ult.Ally" + hero.BaseSkinName);
 
                 if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
-                if (!useult || !((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) || !spells[Spells.R].IsReady() ||
+                if (useult || ((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) || spells[Spells.R].IsReady() ||
                     Utility.CountEnemiesInRange(Player, 1000) <= 0 ||
-                    !(hero.Distance(Player.ServerPosition) <= spells[Spells.R].Range))
+                    (hero.Distance(Player.ServerPosition) <= spells[Spells.R].Range))
                 {
-                    continue;
-                }
-
-                if (getAllys != null && getAllys.GetValue<bool>())
-                {
-                    spells[Spells.R].Cast(hero);
+                    if (getAllys != null && getAllys.GetValue<bool>())
+                    {
+                        spells[Spells.R].Cast(hero);
+                    }
                 }
             }
         }

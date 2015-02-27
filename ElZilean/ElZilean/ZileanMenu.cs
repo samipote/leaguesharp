@@ -34,6 +34,12 @@ namespace ElZilean
             comboMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
             comboMenu.AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 
+
+            //ElZilean.SuperSecretSettings
+            var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
+            SSSMenu.AddItem(new MenuItem("FleeActive", "Flee").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
+            SSSMenu.AddItem(new MenuItem("AutoRewind", "[Toggle] Auto Rewind", true).SetValue(new KeyBind("L".ToCharArray()[0], KeyBindType.Toggle)));
+
             //ElZilean.Ult
             var castUltMenu = _menu.AddSubMenu(new Menu("Ult settings", "ElZilean.Ally.Ult"));
             castUltMenu.AddItem(new MenuItem("ElZilean.useult", "Use ult on ally").SetValue(true));
@@ -53,6 +59,8 @@ namespace ElZilean
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.W", "Draw W").SetValue(true));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.E", "Draw E").SetValue(true));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.R", "[Drawing] Draw R").SetValue(true));
+
+
 
             //Here comes the moneyyy, money, money, moneyyyy
             var credits = _menu.AddSubMenu(new Menu("Credits", "jQuery"));
