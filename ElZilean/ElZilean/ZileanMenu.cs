@@ -31,6 +31,7 @@ namespace ElZilean
             var comboMenu = _menu.AddSubMenu(new Menu("Combo", "Combo"));
             comboMenu.AddItem(new MenuItem("ElZilean.Combo.Q", "Use Q").SetValue(true));
             comboMenu.AddItem(new MenuItem("ElZilean.Combo.E", "Use E").SetValue(true));
+            comboMenu.AddItem(new MenuItem("ElZilean.Combo.W", "Use W to reset Q when target is marked").SetValue(true));
             comboMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
             comboMenu.AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 

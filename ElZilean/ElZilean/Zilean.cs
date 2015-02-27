@@ -124,7 +124,10 @@ namespace ElZilean
 
         private static void Flee()
         {
-            spells[Spells.E].Cast(Player);
+            if (spells[Spells.E].IsReady())
+            {
+                spells[Spells.E].Cast(Player);
+            }   
         }
 
         private static void SelfUlt()
@@ -173,7 +176,7 @@ namespace ElZilean
 
             var qCombo = ZileanMenu._menu.Item("ElZilean.Combo.Q").GetValue<bool>();
             var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
-
+            var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
@@ -185,8 +188,7 @@ namespace ElZilean
                 spells[Spells.E].Cast(target);
             }
 
-            //to-do; menu option, add stun on/off
-            if (target.HasBuff("ZileanQEnemyBomb"))
+            if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
             {
                 spells[Spells.W].Cast();
             }
