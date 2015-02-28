@@ -289,6 +289,8 @@ namespace ElZilean
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
 
+            //var comboDamage = GetComboDamage(target);
+
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
@@ -310,6 +312,22 @@ namespace ElZilean
             {
                 Player.Spellbook.CastSpell(_ignite, target);
             }
+        }
+
+        #endregion
+
+        #region GetComboDamage   
+
+        public static float GetComboDamage(Obj_AI_Base enemy)
+        {
+            var damage = 0d;
+
+            if (spells[Spells.Q].IsReady())
+            {
+                damage += Player.GetSpellDamage(enemy, SpellSlot.Q);
+            }
+
+            return (float)damage;
         }
 
         #endregion

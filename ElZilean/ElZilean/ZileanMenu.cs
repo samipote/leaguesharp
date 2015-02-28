@@ -73,11 +73,19 @@ namespace ElZilean
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.E", "Draw E").SetValue(true));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.R", "[Drawing] Draw R").SetValue(true));
 
+            //copied from esk0r Syndra // Beaving ahri :D
+            var dmgAfterComboItem = new MenuItem("ElZilean.DrawComboDamage", "Draw combo damage").SetValue(true); 
+            miscMenu.AddItem(dmgAfterComboItem);
+
+            Utility.HpBarDamageIndicator.DamageToUnit = Zilean.GetComboDamage;
+            Utility.HpBarDamageIndicator.Enabled = dmgAfterComboItem.GetValue<bool>();
+            dmgAfterComboItem.ValueChanged += delegate (object sender, OnValueChangeEventArgs eventArgs) { Utility.HpBarDamageIndicator.Enabled = eventArgs.GetNewValue<bool>(); };
+            //end copy
+
             //ElZilean.SuperSecretSettings
             var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
             SSSMenu.AddItem(new MenuItem("FleeActive", "Flee").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
             SSSMenu.AddItem(new MenuItem("AutoRewind", "[Toggle] Auto Rewind", true).SetValue(new KeyBind("L".ToCharArray()[0], KeyBindType.Toggle)));
-
 
             //Here comes the moneyyy, money, money, moneyyyy
             var credits = _menu.AddSubMenu(new Menu("Credits", "jQuery"));

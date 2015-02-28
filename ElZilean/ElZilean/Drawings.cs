@@ -31,6 +31,10 @@ namespace ElZilean
             if (ZileanMenu._menu.Item("ElZilean.Draw.R").GetValue<bool>())
                 if (Zilean.spells[Spells.R].Level > 0)
                     Utility.DrawCircle(Zilean.Player.Position, Zilean.spells[Spells.R].Range, Zilean.spells[Spells.R].IsReady() ? Color.Green : Color.Red);
+
+            //Utility.HpBarDamageIndicator.DamageToUnit = Zilean.GetComboDamage;
+            //Utility.HpBarDamageIndicator.Enabled = ZileanMenu._menu.Item("ElZilean.DrawComboDamage").GetValue<bool>();
+            //dmgAfterComboItem.ValueChanged += delegate (object sender, OnValueChangeEventArgs eventArgs) { Utility.HpBarDamageIndicator.Enabled = eventArgs.GetNewValue<bool>(); };
         }
     }
 }
