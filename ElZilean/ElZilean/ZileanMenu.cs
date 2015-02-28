@@ -42,12 +42,17 @@ namespace ElZilean
             harassMenu.AddItem(new MenuItem("ElZilean.Harass.E", "Use E").SetValue(true));
             harassMenu.AddItem(new MenuItem("ElZilean.hitChance", "Hitchance").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3)));
 
-            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.AutoHarass", "[Toggle] Auto harass", true).SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Toggle)));
+            harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.AutoHarass", "[Toggle] Auto harass", false).SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Toggle)));
             harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("spacespacespace", ""));
             harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.UseQAutoHarass", "Use Q").SetValue(true));
             harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.UseEAutoHarass", "Use E").SetValue(false));
             harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("spacespacespassce", ""));
             harassMenu.SubMenu("AutoHarass").AddItem(new MenuItem("ElZilean.harass.mana", "Min % mana for autoharass")).SetValue(new Slider(55));
+
+            //ElZilean.Lanclear
+            var clearMenu = _menu.AddSubMenu(new Menu("Laneclear", "LC"));
+            clearMenu.AddItem(new MenuItem("ElZilean.Clear.Q", "Use Q").SetValue(true));
+            clearMenu.AddItem(new MenuItem("ElZilean.Clear.W", "Use W to reset bomb").SetValue(true));
 
             //ElZilean.Ult
             var castUltMenu = _menu.AddSubMenu(new Menu("Ult settings", "ElZilean.Ally.Ult"));

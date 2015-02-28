@@ -83,7 +83,7 @@ namespace ElZilean
               });*/
 
 
-            Notifications.AddNotification("ElZilean by jQuery v1.0.0.0", 10000);
+            Notifications.AddNotification("ElZilean by jQuery v1.0.1.1", 10000);
             spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
             _ignite = Player.GetSpellSlot("summonerdot");
 
@@ -104,6 +104,9 @@ namespace ElZilean
             {
                 case Orbwalking.OrbwalkingMode.Combo:
                     Combo();
+                    break;
+                case Orbwalking.OrbwalkingMode.LaneClear:
+                    LaneClear();
                     break;
                 case Orbwalking.OrbwalkingMode.Mixed:
                     Harass();
@@ -152,6 +155,9 @@ namespace ElZilean
 
         #endregion
 
+
+        #region Flee
+
         private static void Flee()
         {
             if (spells[Spells.E].IsReady())
@@ -165,6 +171,10 @@ namespace ElZilean
             }
         }
 
+        #endregion
+
+        #region selfult
+
         private static void SelfUlt()
         {
             var useSelftUlt = ZileanMenu._menu.Item("ElZilean.R").GetValue<bool>();
@@ -176,6 +186,10 @@ namespace ElZilean
                 spells[Spells.R].Cast(Player);
             }
         }
+
+        #endregion
+
+        #region ultAlly
 
         private static void UltAlly()
         {
@@ -199,6 +213,36 @@ namespace ElZilean
                 }
             }
         }
+
+        #endregion
+
+        #region Laneclear 
+
+        private static void LaneClear()
+        {
+            var minion = MinionManager.GetMinions(Player.ServerPosition, spells[Spells.Q].Range).FirstOrDefault();
+            if (minion == null || minion.Name.ToLower().Contains("ward")) return;
+
+            var qWaveClear = ZileanMenu._menu.Item("ElZilean.Clear.Q").GetValue<bool>();
+            var wWaveClear = ZileanMenu._menu.Item("ElZilean.Clear.W").GetValue<bool>();
+
+            var bestFarmLocation = MinionManager.GetBestCircularFarmLocation(MinionManager.GetMinions(spells[Spells.Q].Range, MinionTypes.All, MinionTeam.Enemy).Select(m => m.ServerPosition.To2D()).ToList(), spells[Spells.Q].Width, spells[Spells.Q].Range);
+
+            if (qWaveClear && minion.IsValidTarget() && spells[Spells.Q].IsReady())
+            {
+                //Spells.W.Cast();
+                spells[Spells.Q].Cast(bestFarmLocation.Position);
+            }
+
+            if (wWaveClear && !spells[Spells.Q].IsReady())
+            {
+                spells[Spells.W].Cast();
+            }
+        }
+
+        #endregion
+
+        #region Harass
 
         private static void Harass()
         {
@@ -225,6 +269,11 @@ namespace ElZilean
                 spells[Spells.W].Cast();
             }*/
         }
+
+
+        #endregion
+
+        #region Combo
 
         private static void Combo()
         {
@@ -262,6 +311,8 @@ namespace ElZilean
                 Player.Spellbook.CastSpell(_ignite, target);
             }
         }
+
+        #endregion
 
         #region Ignite
 
