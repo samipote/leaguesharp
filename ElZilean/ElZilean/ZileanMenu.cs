@@ -68,10 +68,10 @@ namespace ElZilean
             //ElZilean.Misc
             var miscMenu = _menu.AddSubMenu(new Menu("Misc", "Misc"));
             miscMenu.AddItem(new MenuItem("ElZilean.Draw.off", "[Drawing] Drawings off").SetValue(false));
-            miscMenu.AddItem(new MenuItem("ElZilean.Draw.Q", "Draw Q").SetValue(true));
-            miscMenu.AddItem(new MenuItem("ElZilean.Draw.W", "Draw W").SetValue(true));
-            miscMenu.AddItem(new MenuItem("ElZilean.Draw.E", "Draw E").SetValue(true));
-            miscMenu.AddItem(new MenuItem("ElZilean.Draw.R", "[Drawing] Draw R").SetValue(true));
+            miscMenu.AddItem(new MenuItem("ElZilean.Draw.Q", "Draw Q").SetValue(new Circle()));
+            miscMenu.AddItem(new MenuItem("ElZilean.Draw.W", "Draw W").SetValue(new Circle()));
+            miscMenu.AddItem(new MenuItem("ElZilean.Draw.E", "Draw E").SetValue(new Circle()));
+            miscMenu.AddItem(new MenuItem("ElZilean.Draw.R", "Draw R").SetValue(new Circle()));
 
             //copied from esk0r Syndra // Beaving ahri :D
             var dmgAfterComboItem = new MenuItem("ElZilean.DrawComboDamage", "Draw combo damage").SetValue(true); 
@@ -93,7 +93,7 @@ namespace ElZilean
             credits.AddItem(new MenuItem("ElZilean.Email", "info@zavox.nl"));
 
             _menu.AddItem(new MenuItem("422442fsaafs4242f", ""));
-            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.8"));
+            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.2"));
             _menu.AddItem(new MenuItem("fsasfafsfsafsa", "Made By jQuery"));
 
             _menu.AddToMainMenu();

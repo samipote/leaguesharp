@@ -13,28 +13,31 @@ namespace ElZilean
     {
         public static void Drawing_OnDraw(EventArgs args)
         {
-            if (ZileanMenu._menu.Item("ElZilean.Draw.off").GetValue<bool>())
+
+            var drawOff = ZileanMenu._menu.Item("ElZilean.Draw.off").GetValue<bool>();
+            var drawQ = ZileanMenu._menu.Item("ElZilean.Draw.Q").GetValue<Circle>();
+            var drawW = ZileanMenu._menu.Item("ElZilean.Draw.W").GetValue<Circle>();
+            var drawE = ZileanMenu._menu.Item("ElZilean.Draw.E").GetValue<Circle>();
+            var drawR = ZileanMenu._menu.Item("ElZilean.Draw.R").GetValue<Circle>();
+
+            if (drawOff)
                 return;
 
-            if (ZileanMenu._menu.Item("ElZilean.Draw.Q").GetValue<bool>())
+            if (drawQ.Active)
                 if (Zilean.spells[Spells.Q].Level > 0)
-                    Utility.DrawCircle(Zilean.Player.Position, Zilean.spells[Spells.Q].Range, Zilean.spells[Spells.Q].IsReady() ? Color.Green : Color.Red);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Zilean.spells[Spells.Q].Range, Zilean.spells[Spells.Q].IsReady() ? Color.Green : Color.Red);
 
-            if (ZileanMenu._menu.Item("ElZilean.Draw.W").GetValue<bool>())
+            if (drawW.Active)
                 if (Zilean.spells[Spells.W].Level > 0)
-                    Utility.DrawCircle(Zilean.Player.Position, Zilean.spells[Spells.W].Range, Zilean.spells[Spells.W].IsReady() ? Color.Green : Color.Red);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Zilean.spells[Spells.W].Range, Zilean.spells[Spells.W].IsReady() ? Color.Green : Color.Red);
 
-            if (ZileanMenu._menu.Item("ElZilean.Draw.E").GetValue<bool>())
+            if (drawE.Active)
                 if (Zilean.spells[Spells.E].Level > 0)
-                    Utility.DrawCircle(Zilean.Player.Position, Zilean.spells[Spells.E].Range, Zilean.spells[Spells.E].IsReady() ? Color.Green : Color.Red);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Zilean.spells[Spells.E].Range, Zilean.spells[Spells.E].IsReady() ? Color.Green : Color.Red);
 
-            if (ZileanMenu._menu.Item("ElZilean.Draw.R").GetValue<bool>())
+            if (drawR.Active)
                 if (Zilean.spells[Spells.R].Level > 0)
-                    Utility.DrawCircle(Zilean.Player.Position, Zilean.spells[Spells.R].Range, Zilean.spells[Spells.R].IsReady() ? Color.Green : Color.Red);
-
-            //Utility.HpBarDamageIndicator.DamageToUnit = Zilean.GetComboDamage;
-            //Utility.HpBarDamageIndicator.Enabled = ZileanMenu._menu.Item("ElZilean.DrawComboDamage").GetValue<bool>();
-            //dmgAfterComboItem.ValueChanged += delegate (object sender, OnValueChangeEventArgs eventArgs) { Utility.HpBarDamageIndicator.Enabled = eventArgs.GetNewValue<bool>(); };
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Zilean.spells[Spells.R].Range, Zilean.spells[Spells.R].IsReady() ? Color.Green : Color.Red);
         }
     }
 }
