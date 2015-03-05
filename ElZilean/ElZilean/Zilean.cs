@@ -64,31 +64,13 @@ namespace ElZilean
             if (ObjectManager.Player.BaseSkinName != hero)
                 return;
 
-            /*new SpellData
-                           {
-                    +ChampionName = "Zilean",
-                    +SpellName = "ZileanQ",
-                    +Slot = SpellSlot.Q,
-                    +Type = SkillShotType.SkillshotCircle,
-                    +Delay = 300,
-                    +Range = 900,
-                    +Radius = 210,
-                    +MissileSpeed = 2000,
-                    +FixedRange = false,
-                    +AddHitbox = true,
-                    +DangerValue = 2,
-                    +IsDangerous = false,
-                    +MissileSpellName = "ZileanQMissile",                    
-                    +CollisionObjects = new[] { CollisionObjectTypes.YasuoWall }
-              });*/
 
-
-            Notifications.AddNotification("ElZilean by jQuery v1.0.1.1", 10000);
+            Notifications.AddNotification("ElZilean by jQuery v1.0.1.3", 10000);
             spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
             _ignite = Player.GetSpellSlot("summonerdot");
 
             ZileanMenu.Initialize();
-            Game.OnGameUpdate += OnGameUpdate;
+            Game.OnUpdate += OnGameUpdate;
             Drawing.OnDraw += Drawings.Drawing_OnDraw;
         }
 
@@ -121,14 +103,7 @@ namespace ElZilean
                 Flee();
             }
 
-            if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
-            if (ZileanMenu._menu.Item("AutoRewind", true).GetValue<KeyBind>().Active)
-            {
-                if (Environment.TickCount - spells[Spells.W].LastCastAttemptT >= 6000 && spells[Spells.W].IsReady())
-                    spells[Spells.W].Cast();
-            }
-
-            if (ZileanMenu._menu.Item("ElZilean.AutoHarass", true).GetValue<KeyBind>().Active)
+            if (ZileanMenu._menu.Item("ElZilean.AutoHarass").GetValue<KeyBind>().Active)
             {
                 var target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
                 if (target == null || !target.IsValid)

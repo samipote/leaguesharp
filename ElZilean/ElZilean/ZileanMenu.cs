@@ -85,7 +85,6 @@ namespace ElZilean
             //ElZilean.SuperSecretSettings
             var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
             SSSMenu.AddItem(new MenuItem("FleeActive", "Flee").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
-            SSSMenu.AddItem(new MenuItem("AutoRewind", "[Toggle] Auto Rewind", true).SetValue(new KeyBind("L".ToCharArray()[0], KeyBindType.Toggle)));
 
             //Here comes the moneyyy, money, money, moneyyyy
             var credits = _menu.AddSubMenu(new Menu("Credits", "jQuery"));
@@ -93,7 +92,7 @@ namespace ElZilean
             credits.AddItem(new MenuItem("ElZilean.Email", "info@zavox.nl"));
 
             _menu.AddItem(new MenuItem("422442fsaafs4242f", ""));
-            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.2"));
+            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.3"));
             _menu.AddItem(new MenuItem("fsasfafsfsafsa", "Made By jQuery"));
 
             _menu.AddToMainMenu();
