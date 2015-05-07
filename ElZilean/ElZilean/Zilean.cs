@@ -65,7 +65,7 @@ namespace ElZilean
                 return;
 
 
-            Notifications.AddNotification("ElZilean by jQuery v1.0.1.3", 10000);
+            Notifications.AddNotification("ElZilean by jQuery v1.0.1.4", 10000);
             spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
             _ignite = Player.GetSpellSlot("summonerdot");
 
@@ -75,8 +75,6 @@ namespace ElZilean
         }
 
         #endregion
-
-        //harass, waveclear, autoharass, ignite
 
         #region OnGameUpdate
 
@@ -113,17 +111,18 @@ namespace ElZilean
                 var e = ZileanMenu._menu.Item("ElZilean.UseEAutoHarass").GetValue<bool>();
                 var mana = ZileanMenu._menu.Item("ElZilean.harass.mana").GetValue<Slider>().Value;
 
-                if (Player.ManaPercentage() >= mana)
+                if (!(Player.ManaPercent >= mana))
                 {
-                    if (q && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
-                    {
-                        spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
-                    }
+                    return;
+                }
+                if (q && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
+                {
+                    spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
+                }
 
-                    if (e && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
-                    {
-                        spells[Spells.E].Cast(target);
-                    }
+                if (e && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
+                {
+                    spells[Spells.E].Cast(target);
                 }
             }
         }
@@ -153,10 +152,12 @@ namespace ElZilean
         private static void SelfUlt()
         {
             var useSelftUlt = ZileanMenu._menu.Item("ElZilean.R").GetValue<bool>();
-            var useSelftHP = ZileanMenu._menu.Item("ElZilean.HP").GetValue<Slider>().Value;
+            var useSelftHp = ZileanMenu._menu.Item("ElZilean.HP").GetValue<Slider>().Value;
 
-            if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
-            if (useSelftUlt && (Player.Health / Player.MaxHealth) * 100 <= useSelftHP && spells[Spells.R].IsReady() && Utility.CountEnemiesInRange(Player, 650) > 0)
+            if (Player.IsRecalling() || Player.InFountain())
+                return;
+            if (useSelftUlt && (Player.Health / Player.MaxHealth) * 100 <= useSelftHp && spells[Spells.R].IsReady() 
+                && Player.CountEnemiesInRange(650) > 0)
             {
                 spells[Spells.R].Cast(Player);
             }
@@ -170,15 +171,16 @@ namespace ElZilean
         {
             
             var useult = ZileanMenu._menu.Item("ElZilean.useult").GetValue<bool>();
-            var allyMinHP = ZileanMenu._menu.Item("ElZilean.Ally.HP").GetValue<Slider>().Value;
+            var allyMinHp = ZileanMenu._menu.Item("ElZilean.Ally.HP").GetValue<Slider>().Value;
 
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsAlly && !hero.IsMe))
             {
                 var getAllys = ZileanMenu._menu.Item("ElZilean.Cast.Ult.Ally" + hero.BaseSkinName);
 
-                if (Player.HasBuff("Recall") || Utility.InFountain(Player)) return;
-                if (useult && ((hero.Health / hero.MaxHealth) * 100 <= allyMinHP) && spells[Spells.R].IsReady() &&
-                    Utility.CountEnemiesInRange(Player, 1000) > 0 &&
+                if (Player.IsRecalling() || Player.InFountain())
+                    return;
+                if (useult && ((hero.Health / hero.MaxHealth) * 100 <= allyMinHp) && spells[Spells.R].IsReady() &&
+                    Player.CountEnemiesInRange(1000) > 0 &&
                     (hero.Distance(Player.ServerPosition) <= spells[Spells.R].Range))
                 {
                     if (getAllys != null && getAllys.GetValue<bool>())
@@ -238,11 +240,6 @@ namespace ElZilean
             {
                 spells[Spells.E].Cast(target);
             }
-
-           /* if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
-            {
-                spells[Spells.W].Cast();
-            }*/
         }
 
 
@@ -263,9 +260,6 @@ namespace ElZilean
             var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
-
-            //var comboDamage = GetComboDamage(target);
-
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
