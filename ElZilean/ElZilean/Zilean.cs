@@ -64,17 +64,28 @@ namespace ElZilean
             if (ObjectManager.Player.BaseSkinName != hero)
                 return;
 
-
-            Notifications.AddNotification("ElZilean by jQuery v1.0.1.4", 10000);
+            Notifications.AddNotification("ElZilean by jQuery v1.0.1.5", 10000);
             spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
             _ignite = Player.GetSpellSlot("summonerdot");
 
             ZileanMenu.Initialize();
             Game.OnUpdate += OnGameUpdate;
             Drawing.OnDraw += Drawings.Drawing_OnDraw;
+            Orbwalking.BeforeAttack += OrbwalkingBeforeAttack;
         }
 
         #endregion
+
+        private static void OrbwalkingBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
+        {
+            if (ZileanMenu._menu.Item("ElZilean.SupportMode").GetValue<bool>())
+            {
+                if (args.Target is Obj_AI_Minion)
+                {
+                        args.Process = false;
+                }
+            } 
+        }
 
         #region OnGameUpdate
 
@@ -227,13 +238,16 @@ namespace ElZilean
             if (target == null || !target.IsValid)
                 return;
 
+
             var qCombo = ZileanMenu._menu.Item("ElZilean.Harass.Q").GetValue<bool>();
             var eCombo = ZileanMenu._menu.Item("ElZilean.Harass.E").GetValue<bool>();
 
 
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
             {
-                spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
+                var pred = spells[Spells.Q].GetPrediction(target);
+                if (pred.Hitchance >= CustomHitChance)
+                    spells[Spells.Q].Cast(target);
             }
 
             if (eCombo && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
@@ -249,9 +263,31 @@ namespace ElZilean
 
         private static void Combo()
         {
-            var target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
-            if (target == null || !target.IsValid)
+            Obj_AI_Hero target;
+            target = TargetSelector.GetSelectedTarget();
+            if (target == null || !target.IsValidTarget())
+            {
+                target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
+            }
+
+            if (TargetSelector.GetSelectedTarget() != null)
+            {
+                if (Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.Q].Range)
+                {
+                    target = TargetSelector.GetSelectedTarget();
+                }
+            }
+
+             if (target == null || !target.IsValid)
                 return;
+
+            /*target = TargetSelector.GetTarget(spells[Spells.R].Range, TargetSelector.DamageType.Physical);
+            if (!target.IsValidTarget(spells[Spells.R].Range) || target == null || !target.IsValid)
+                return;*/
+
+            /*var target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
+                if (target == null || !target.IsValid)
+                return;*/
 
             //Console.WriteLine("Buffs: {0}", string.Join(" | ", target.Buffs.Select(b => b.DisplayName)));
             //Console.WriteLine("Buffs: {0}", string.Join(" | ", target.Buffs.Where(b => b.Caster.NetworkId == Player.NetworkId).Select(b => b.DisplayName)));
@@ -261,12 +297,15 @@ namespace ElZilean
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
 
-            if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
+            
+            if (qCombo && spells[Spells.Q].IsReady() && Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.Q].Range)
             {
-                spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
+                var pred = spells[Spells.Q].GetPrediction(target);
+                if (pred.Hitchance >= CustomHitChance)
+                    spells[Spells.Q].Cast(target);
             }
 
-            if (eCombo && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
+            if (eCombo && spells[Spells.E].IsReady() && Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.E].Range)
             {
                 spells[Spells.E].Cast(target);
             }

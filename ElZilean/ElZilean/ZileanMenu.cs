@@ -79,8 +79,14 @@ namespace ElZilean
 
             Utility.HpBarDamageIndicator.DamageToUnit = Zilean.GetComboDamage;
             Utility.HpBarDamageIndicator.Enabled = dmgAfterComboItem.GetValue<bool>();
-            dmgAfterComboItem.ValueChanged += delegate (object sender, OnValueChangeEventArgs eventArgs) { Utility.HpBarDamageIndicator.Enabled = eventArgs.GetNewValue<bool>(); };
+            dmgAfterComboItem.ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
+                {
+                    Utility.HpBarDamageIndicator.Enabled = eventArgs.GetNewValue<bool>();
+                };
             //end copy
+
+            miscMenu.AddItem(new MenuItem("ElZilean.SupportMode", "Support mode").SetValue(false));
+
 
             //ElZilean.SuperSecretSettings
             var SSSMenu = _menu.AddSubMenu(new Menu("Super Secret Settings", "SSS"));
@@ -92,7 +98,7 @@ namespace ElZilean
             credits.AddItem(new MenuItem("ElZilean.Email", "info@zavox.nl"));
 
             _menu.AddItem(new MenuItem("422442fsaafs4242f", ""));
-            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.4"));
+            _menu.AddItem(new MenuItem("422442fsaafsf", "Version: 1.0.1.5"));
             _menu.AddItem(new MenuItem("fsasfafsfsafsa", "Made By jQuery"));
 
             _menu.AddToMainMenu();
