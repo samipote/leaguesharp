@@ -281,23 +281,11 @@ namespace ElZilean
              if (target == null || !target.IsValid)
                 return;
 
-            /*target = TargetSelector.GetTarget(spells[Spells.R].Range, TargetSelector.DamageType.Physical);
-            if (!target.IsValidTarget(spells[Spells.R].Range) || target == null || !target.IsValid)
-                return;*/
-
-            /*var target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
-                if (target == null || !target.IsValid)
-                return;*/
-
-            //Console.WriteLine("Buffs: {0}", string.Join(" | ", target.Buffs.Select(b => b.DisplayName)));
-            //Console.WriteLine("Buffs: {0}", string.Join(" | ", target.Buffs.Where(b => b.Caster.NetworkId == Player.NetworkId).Select(b => b.DisplayName)));
-
             var qCombo = ZileanMenu._menu.Item("ElZilean.Combo.Q").GetValue<bool>();
             var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
-
-            
+ 
             if (qCombo && spells[Spells.Q].IsReady() && Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.Q].Range)
             {
                 var pred = spells[Spells.Q].GetPrediction(target);
