@@ -14,9 +14,7 @@ namespace ElZilean
         Q, W, E, R
     }
 
-    /// <summary>
-    ///     Handle all stuff what is going on with Rengar.
-    /// </summary>
+
     internal class Zilean
     {
         private static String hero = "Zilean";
@@ -61,11 +59,11 @@ namespace ElZilean
 
         public static void Game_OnGameLoad(EventArgs args)
         {
-            if (ObjectManager.Player.BaseSkinName != hero)
+            if (ObjectManager.Player.CharData.BaseSkinName != hero)
                 return;
 
             Notifications.AddNotification("ElZilean by jQuery v1.0.1.5", 10000);
-            spells[Spells.Q].SetSkillshot(0.30f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
+            spells[Spells.Q].SetSkillshot(0.3f, 210f, 2000f, false, SkillshotType.SkillshotCircle);
             _ignite = Player.GetSpellSlot("summonerdot");
 
             ZileanMenu.Initialize();
@@ -128,7 +126,9 @@ namespace ElZilean
                 }
                 if (q && spells[Spells.Q].IsReady() && Player.Distance(target) <= spells[Spells.Q].Range)
                 {
-                    spells[Spells.Q].CastIfHitchanceEquals(target, CustomHitChance);
+                    var prediction = spells[Spells.Q].GetPrediction(target);
+                    if (prediction.Hitchance >= HitChance.VeryHigh)
+                        spells[Spells.Q].Cast(target);
                 }
 
                 if (e && spells[Spells.E].IsReady() && Player.Distance(target) <= spells[Spells.E].Range)
@@ -286,7 +286,7 @@ namespace ElZilean
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
  
-            if (qCombo && spells[Spells.Q].IsReady() && Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.Q].Range)
+            if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) < spells[Spells.Q].Range)
             {
                 var pred = spells[Spells.Q].GetPrediction(target);
                 if (pred.Hitchance >= CustomHitChance)
