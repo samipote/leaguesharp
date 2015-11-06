@@ -276,7 +276,14 @@ namespace ElZilean
             var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
-			 if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
+	         if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) < spells[Spells.Q].Range)
+            {
+                var pred = spells[Spells.Q].GetPrediction(target);
+                if (pred.Hitchance >= CustomHitChance)
+                    spells[Spells.Q].Cast(target);
+            }
+
+	    if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
             {
                 spells[Spells.W].Cast();
             }
