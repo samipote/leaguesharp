@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -269,15 +269,6 @@ namespace ElZilean
             {
                 target = TargetSelector.GetTarget(spells[Spells.Q].Range, TargetSelector.DamageType.Magical);
             }
-
-            if (TargetSelector.GetSelectedTarget() != null)
-            {
-                if (Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.Q].Range)
-                {
-                    target = TargetSelector.GetSelectedTarget();
-                }
-            }
-
              if (target == null || !target.IsValid)
                 return;
 
@@ -285,7 +276,10 @@ namespace ElZilean
             var eCombo = ZileanMenu._menu.Item("ElZilean.Combo.E").GetValue<bool>();
             var wCombo = ZileanMenu._menu.Item("ElZilean.Combo.W").GetValue<bool>();
             var useIgnite = ZileanMenu._menu.Item("ElZilean.Combo.Ignite").GetValue<bool>();
- 
+			 if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
+            {
+                spells[Spells.W].Cast();
+            }
             if (qCombo && spells[Spells.Q].IsReady() && Player.Distance(target) < spells[Spells.Q].Range)
             {
                 var pred = spells[Spells.Q].GetPrediction(target);
@@ -296,11 +290,6 @@ namespace ElZilean
             if (eCombo && spells[Spells.E].IsReady() && Vector3.Distance(Player.ServerPosition, target.ServerPosition) < spells[Spells.E].Range)
             {
                 spells[Spells.E].Cast(target);
-            }
-
-            if (target.HasBuff("ZileanQEnemyBomb") && wCombo)
-            {
-                spells[Spells.W].Cast();
             }
 
             if (Player.Distance(target) <= 600 && IgniteDamage(target) >= target.Health &&
